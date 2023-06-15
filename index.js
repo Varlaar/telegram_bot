@@ -41,7 +41,6 @@ const bot = new Telegraf(BOT_TOKEN); // создаем новый экземпл
 const commands = [
   { command: "start", description: "Перезапустить бота" },
   { command: "weather", description: "Узнать погоду" },
-  { command: "date", description: "Узнать" },
 ];
 bot.telegram.setMyCommands(commands);
 
