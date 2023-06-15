@@ -41,8 +41,7 @@ bot.startWebhook(`/bot${BOT_TOKEN}`, null, PORT);
 const commands = [
   { command: "start", description: "Перезапустить бота" },
   { command: "weather", description: "Узнать погоду" },
-  { command: "d", description: "У" },
-  { command: "fe", description: "Узнь" },
+  { command: "father", description: "Узнатhь погоду" },
 ];
 bot.telegram.setMyCommands(commands);
 
