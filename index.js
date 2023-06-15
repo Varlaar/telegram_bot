@@ -102,18 +102,7 @@ bot.on("message", async (ctx) => {
 });
 
 // // запускает бота и начинает прослушивать входящие сообщения и команды от пользователей
-// bot.launch();
-  bot
-    .launch({
-      webhook: {
-        domain: WEBHOOK_DOMAIN,
-        port: PORT,
-      },
-    })
-    .then(() => {
-      console.log(`Bot has been started on ${WEBHOOK_DOMAIN}`);
-    });
-
+bot.launch();
 
 // Остановка бота
 process.once("SIGINT", () => bot.stop("SIGINT"));
