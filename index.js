@@ -1,5 +1,4 @@
-const { Telegraf } = require('telegraf');
-// import { Telegraf } from "telegraf";
+import { Telegraf } from "telegraf";
 import { fmt, bold, mention } from "telegraf/format";
 import requestWeather from "./api/weatherAPI.js";
 import "dotenv/config";
