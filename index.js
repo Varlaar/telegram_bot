@@ -4,7 +4,7 @@ import requestWeather from "./api/weatherAPI.js";
 import "dotenv/config";
 
 const { BOT_TOKEN } = process.env; // Деструктуризация BOT_TOKEN из .env
-// if (!BOT_TOKEN) throw new Error('"BOT_TOKEN" env var is required!'); // Проверка существует ли токен
+if (!BOT_TOKEN) throw new Error('"BOT_TOKEN" env var is required!'); // Проверка существует ли токен
 
 /* Эта переменная содержит номер порта, который будет использоваться вебхуком, и она должна быть настроена на вашем бесплатном хостинге.
 Например, для хостинга Heroku эта переменная будет автоматически установлена для вашего приложения.
@@ -101,9 +101,8 @@ bot.on("message", async (ctx) => {
 });
 
 // // // запускает бота и начинает прослушивать входящие сообщения и команды от пользователей
-// bot.launch();
-bot.telegram.setWebhook(`${WEBHOOK_URL}/bot${BOT_TOKEN}`)
-bot.startWebhook(`/bot${BOT_TOKEN}`, null, PORT);
+bot.launch();
+
 // Остановка бота
 process.once("SIGINT", () => bot.stop("SIGINT"));
 process.once("SIGTERM", () => bot.stop("SIGTERM"));
