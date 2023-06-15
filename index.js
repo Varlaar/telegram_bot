@@ -41,6 +41,7 @@ const commands = [
   { command: "weather", description: "Узнать погоду" },
   { command: "time", description: "Узнать время" },
   { command: "date", description: "Узнать дату" },
+  { command: "course", description: "Узнать курс валют" },
 ];
 
 // Обработчик команды /start
