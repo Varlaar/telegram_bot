@@ -21,24 +21,26 @@ const { PORT } = process.env; // url хостинга
 
 const bot = new Telegraf(BOT_TOKEN); // создаем новый экземпляр Telegram-бота
 
-bot.launch({
-  webhook: {
-    domain: WEBHOOK_DOMAIN,
-    port: PORT,
-  },
-});
+bot.telegram.setWebhook(`${WEBHOOK_URL}/bot${BOT_TOKEN}`)
+bot.startWebhook(`/bot${BOT_TOKEN}`, null, PORT)
 
-bot.setWebHook(
-  `${WEBHOOK_URL}/bot${BOT_TOKEN}`
-); /* После установки вебхука Telegram будет отправлять все входящие сообщения и события боту по этому URL-адресу.
-Таким образом, бот будет получать уведомления в режиме реального времени вместо опроса сервера Telegram на наличие новых сообщений.
-*/
+// bot.launch({
+//   webhook: {
+//     domain: WEBHOOK_DOMAIN,
+//     port: PORT,
+//   },
+// });
+
+// bot.setWebHook(
+//   `${WEBHOOK_URL}/bot${BOT_TOKEN}`
+// ); /* После установки вебхука Telegram будет отправлять все входящие сообщения и события боту по этому URL-адресу.
+// Таким образом, бот будет получать уведомления в режиме реального времени вместо опроса сервера Telegram на наличие новых сообщений.
+// */
 
 // Команды меню
 const commands = [
   { command: "start", description: "Перезапустить бота" },
   { command: "weather", description: "Узнать погоду" },
-  { command: "Dima", description: "Shirmanov" },
 ];
 bot.telegram.setMyCommands(commands);
 
@@ -98,8 +100,7 @@ bot.on("message", async (ctx) => {
 });
 
 // запускает бота и начинает прослушивать входящие сообщения и команды от пользователей
-bot.launch();
-
+bot.launch()
 // Остановка бота
 process.once("SIGINT", () => bot.stop("SIGINT"));
 process.once("SIGTERM", () => bot.stop("SIGTERM"));
