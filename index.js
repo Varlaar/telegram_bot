@@ -43,13 +43,17 @@ const commands = [
 ];
 bot.telegram.setMyCommands(commands);
 
-bot.launch({
-  webhook: {
-    domain: WEBHOOK_DOMAIN,
-    port: 8443,
-  }
-}).then(() => {
-  console.log(`Bot has been started on ${WEBHOOK_DOMAIN}`);
+bot.telegram.deleteWebhook().then(() => {
+  bot
+    .launch({
+      webhook: {
+        domain: WEBHOOK_DOMAIN,
+        port: 8443,
+      },
+    })
+    .then(() => {
+      console.log(`Bot has been started on ${WEBHOOK_DOMAIN}`);
+    });
 });
 
 // Обработчик команды /start
