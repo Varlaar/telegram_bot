@@ -91,6 +91,7 @@ bot.on("message", async (ctx) => {
 // запускает бота и начинает прослушивать входящие сообщения и команды от пользователей
 bot.launch();
 
+
 // Остановка бота
 process.once("SIGINT", () => bot.stop("SIGINT"));
 process.once("SIGTERM", () => bot.stop("SIGTERM"));
