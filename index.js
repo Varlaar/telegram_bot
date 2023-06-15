@@ -56,7 +56,7 @@ bot.command("weather", async (ctx) => {
     await ctx.reply("Какой город вас интересует?");
     await ctx.reply(`/Ulyanovsk`);
   } catch (err) {
-    console.log(err);
+    console.log(err.message);
   }
 });
 
