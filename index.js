@@ -25,8 +25,8 @@ bot.telegram.setWebhook(WEBHOOK_URL);
 bot.launch({
   webhook: {
     domain: WEBHOOK_DOMAIN,
-    port: 8443
-  }
+    port: 8443,
+  },
 });
 
 // bot.setWebHook(
@@ -52,13 +52,9 @@ bot.command("start", (ctx) => {
 });
 
 // Обработчик команды /weather
-bot.command("weather", async (ctx) => {
-  try {
-  await ctx.reply("Какой город вас интересует?");
-  await ctx.reply(`/Ulyanovsk`);
-  } catch (err) {
-    console.log(err.message)
-  }
+bot.command("weather", (ctx) => {
+  ctx.reply("Какой город вас интересует?");
+  ctx.reply(`/Ulyanovsk`);
 });
 
 // Обработчик команды /weather
@@ -94,7 +90,6 @@ bot.on("message", async (ctx) => {
 
 // запускает бота и начинает прослушивать входящие сообщения и команды от пользователей
 bot.launch();
-
 
 // Остановка бота
 process.once("SIGINT", () => bot.stop("SIGINT"));
