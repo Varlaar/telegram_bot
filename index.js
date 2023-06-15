@@ -15,25 +15,25 @@ const { BOT_TOKEN } = process.env; // Деструктуризация BOT_TOKEN
 //   },
 // };
 
-// const { WEBHOOK_URL } = process.env; // url хостинга
+const { WEBHOOK_URL } = process.env; // url хостинга
 const { WEBHOOK_DOMAIN } = process.env; // url хостинга
 
 const bot = new Telegraf(BOT_TOKEN); // создаем новый экземпляр Telegram-бота
 
-// bot.telegram.setWebhook(WEBHOOK_URL);
+bot.telegram.setWebhook(WEBHOOK_URL);
 
-// bot.launch({
-//   webhook: {
-//     domain: WEBHOOK_DOMAIN,
-//     port: 8443,
-//   },
-// });
+bot.launch({
+  webhook: {
+    domain: WEBHOOK_DOMAIN,
+    port: 8443,
+  },
+});
 
-// bot.setWebHook(
-//   `${url}/bot${BOT_TOKEN}`
-// ); /* После установки вебхука Telegram будет отправлять все входящие сообщения и события боту по этому URL-адресу.
-// Таким образом, бот будет получать уведомления в режиме реального времени вместо опроса сервера Telegram на наличие новых сообщений.
-// */
+bot.setWebHook(
+  `${url}/bot${BOT_TOKEN}`
+); /* После установки вебхука Telegram будет отправлять все входящие сообщения и события боту по этому URL-адресу.
+Таким образом, бот будет получать уведомления в режиме реального времени вместо опроса сервера Telegram на наличие новых сообщений.
+*/
 
 // Команды меню
 const commands = [
@@ -43,18 +43,18 @@ const commands = [
 ];
 bot.telegram.setMyCommands(commands);
 
-bot.telegram.deleteWebhook().then(() => {
-  bot
-    .launch({
-      webhook: {
-        domain: WEBHOOK_DOMAIN,
-        port: 8443,
-      },
-    })
-    .then(() => {
-      console.log(`Bot has been started on ${WEBHOOK_DOMAIN}`);
-    });
-});
+// bot.telegram.deleteWebhook().then(() => {
+//   bot
+//     .launch({
+//       webhook: {
+//         domain: WEBHOOK_DOMAIN,
+//         port: 8443,
+//       },
+//     })
+//     .then(() => {
+//       console.log(`Bot has been started on ${WEBHOOK_DOMAIN}`);
+//     });
+// });
 
 // Обработчик команды /start
 bot.command("start", (ctx) => {
