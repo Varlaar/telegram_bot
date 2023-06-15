@@ -22,7 +22,7 @@ const { PORT } = process.env; // url хостинга
 const bot = new Telegraf(BOT_TOKEN); // создаем новый экземпляр Telegram-бота
 
 // bot.telegram.setWebhook(`${WEBHOOK_URL}/bot${BOT_TOKEN}`)
-bot.startWebhook(`/bot${BOT_TOKEN}`, null, PORT)
+bot.startWebhook(`/bot${BOT_TOKEN}`, null, PORT);
 
 // bot.launch({
 //   webhook: {
@@ -41,8 +41,6 @@ bot.startWebhook(`/bot${BOT_TOKEN}`, null, PORT)
 const commands = [
   { command: "start", description: "Перезапустить бота" },
   { command: "weather", description: "Узнать погоду" },
-  { command: "dates", description: "уeeeehhhh" },
-  { command: "dateeeeeeeeeeeee", description: "у" },
 ];
 bot.telegram.setMyCommands(commands);
 
@@ -102,7 +100,7 @@ bot.on("message", async (ctx) => {
 });
 
 // запускает бота и начинает прослушивать входящие сообщения и команды от пользователей
-bot.launch()
+bot.launch();
 // Остановка бота
 process.once("SIGINT", () => bot.stop("SIGINT"));
 process.once("SIGTERM", () => bot.stop("SIGTERM"));
