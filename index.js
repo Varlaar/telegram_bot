@@ -15,19 +15,19 @@ const { BOT_TOKEN } = process.env; // Деструктуризация BOT_TOKEN
 //   },
 // };
 
-const { WEBHOOK_URL } = process.env; // url хостинга
+// const { WEBHOOK_URL } = process.env; // url хостинга
 const { WEBHOOK_DOMAIN } = process.env; // url хостинга
 
-const bot = new Telegraf(BOT_TOKEN, {polling: true}); // создаем новый экземпляр Telegram-бота
+const bot = new Telegraf(BOT_TOKEN); // создаем новый экземпляр Telegram-бота
 
-bot.telegram.setWebhook(WEBHOOK_URL);
+// bot.telegram.setWebhook(WEBHOOK_URL);
 
-bot.launch({
-  webhook: {
-    domain: WEBHOOK_DOMAIN,
-    port: 8443,
-  },
-});
+// bot.launch({
+//   webhook: {
+//     domain: WEBHOOK_DOMAIN,
+//     port: 8443,
+//   },
+// });
 
 // bot.setWebHook(
 //   `${url}/bot${BOT_TOKEN}`
@@ -39,8 +39,18 @@ bot.launch({
 const commands = [
   { command: "start", description: "Перезапустить бота" },
   { command: "weather", description: "Узнать погоду" },
-  { command: "wear", description: "Узнаоду" },
+  { command: "test", description: "aaaaa" },
 ];
+bot.telegram.setMyCommands(commands);
+
+bot.launch({
+  webhook: {
+    domain: WEBHOOK_DOMAIN,
+    port: 8443,
+  }
+}).then(() => {
+  console.log(`Bot has been started on ${WEBHOOK_DOMAIN}`);
+});
 
 // Обработчик команды /start
 bot.command("start", (ctx) => {
