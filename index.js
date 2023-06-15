@@ -40,6 +40,7 @@ const commands = [
   { command: "start", description: "Перезапустить бота" },
   { command: "weather", description: "Узнать погоду" },
   { command: "test", description: "test" },
+  { command: "test2", description: "test2" },
 ];
 
 // Обработчик команды /start
