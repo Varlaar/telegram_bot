@@ -39,7 +39,7 @@ bot.launch({
 const commands = [
   { command: "start", description: "Перезапустить бота" },
   { command: "weather", description: "Узнать погоду" },
-  { command: "time", description: "Узнать время" },
+  { command: "test", description: "test" },
 ];
 
 // Обработчик команды /start
@@ -51,15 +51,13 @@ bot.command("start", (ctx) => {
 });
 
 // Обработчик команды /weather
-bot.command("weather", (ctx) => {
-  ctx.reply("Какой город вас интересует?");
-  ctx.reply(`/Ulyanovsk`);
-});
-
-// Обработчик команды /weather
-bot.command("time", (ctx) => {
-  ctx.reply("Какой город вас интересует?");
-  ctx.reply(`/Ulyanovsk`);
+bot.command("weather", async (ctx) => {
+  try {
+    ctx.reply("Какой город вас интересует?");
+    ctx.reply(`/Ulyanovsk`);
+  } catch (err) {
+    console.log(err);
+  }
 });
 
 // Получение данных о температуре
