@@ -57,7 +57,6 @@ bot.command("start", (ctx) => {
   ctx.reply(
     `Добро пожаловать, ${ctx.update.message.from.first_name}! Меня зовут ShirmanovTech бот.`
   );
-  bot.telegram.setMyCommands(commands);
 });
 
 // Обработчик команды /weather
