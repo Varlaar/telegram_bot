@@ -25,7 +25,7 @@ bot.telegram.setWebhook(WEBHOOK_URL);
 bot.launch({
   webhook: {
     domain: WEBHOOK_DOMAIN,
-    port: 8443
+    port: 80
   }
 });
 
