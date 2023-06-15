@@ -18,7 +18,7 @@ const { BOT_TOKEN } = process.env; // Деструктуризация BOT_TOKEN
 const { WEBHOOK_URL } = process.env; // url хостинга
 const { WEBHOOK_DOMAIN } = process.env; // url хостинга
 
-const bot = new Telegraf(BOT_TOKEN); // создаем новый экземпляр Telegram-бота
+const bot = new Telegraf(BOT_TOKEN, {polling: true}); // создаем новый экземпляр Telegram-бота
 
 bot.telegram.setWebhook(WEBHOOK_URL);
 
