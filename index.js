@@ -1,19 +1,10 @@
 import { Telegraf } from "telegraf";
-import { fmt, bold, mention } from "telegraf/format";
+import { commands } from "./assets/constants.js";
 import requestWeather from "./api/weatherAPI.js";
 import "dotenv/config";
 
 const { BOT_TOKEN } = process.env; // Деструктуризация BOT_TOKEN из .env
 if (!BOT_TOKEN) throw new Error('"BOT_TOKEN" env var is required!'); // Проверка существует ли токен
-
-/* Эта переменная содержит номер порта, который будет использоваться вебхуком, и она должна быть настроена на вашем бесплатном хостинге.
-Например, для хостинга Heroku эта переменная будет автоматически установлена для вашего приложения.
-Если порт не был установлен, то по умолчанию используется порт 443 для HTTPS или порт 80 для HTTP. */
-// const options = {
-//   webHook: {
-//     port: process.env.PORT,
-//   },
-// };
 
 const { WEBHOOK_URL } = process.env; // url хостинга
 const { WEBHOOK_DOMAIN } = process.env; // url хостинга
@@ -21,42 +12,7 @@ const { PORT } = process.env; // url хостинга
 
 const bot = new Telegraf(BOT_TOKEN); // создаем новый экземпляр Telegram-бота
 
-// bot.telegram.setWebhook(`${WEBHOOK_URL}/bot${BOT_TOKEN}`)
-// bot.startWebhook(`/bot${BOT_TOKEN}`, null, PORT);
-
-// bot.launch({
-//   webhook: {
-//     domain: WEBHOOK_DOMAIN,
-//     port: PORT,
-//   },
-// });
-
-// bot.setWebHook(
-//   `${WEBHOOK_URL}/bot${BOT_TOKEN}`
-// ); /* После установки вебхука Telegram будет отправлять все входящие сообщения и события боту по этому URL-адресу.
-// Таким образом, бот будет получать уведомления в режиме реального времени вместо опроса сервера Telegram на наличие новых сообщений.
-// */
-
-// Команды меню
-const commands = [
-  { command: "start", description: "Перезапустить бота" },
-  { command: "weather", description: "Узнать погоду" },
-  { command: "f", description: "У" },
-];
-bot.telegram.setMyCommands(commands);
-
-// bot.telegram.deleteWebhook().then(() => {
-//   bot
-//     .launch({
-//       webhook: {
-//         domain: WEBHOOK_DOMAIN,
-//         port: 8443,
-//       },
-//     })
-//     .then(() => {
-//       console.log(`Bot has been started on ${WEBHOOK_DOMAIN}`);
-//     });
-// });
+bot.telegram.setMyCommands(commands); // Команды меню
 
 // Обработчик команды /start
 bot.command("start", (ctx) => {
@@ -82,12 +38,9 @@ bot.on("message", async (ctx) => {
     const response = await requestWeather(message);
     const city = response.data.location.name;
     const temp_c = response.data.current.temp_c;
-    ctx.reply(
-      fmt`Текущая температура в ${bold`${mention(
-        city,
-        ctx.from.id
-      )}`}${bold` : ${temp_c}`}°C`
-    );
+    ctx.reply(`Текущая температура в <b>${city}</b>: <b>${temp_c}</b>°C`, {
+      parse_mode: "HTML",
+    });
   } catch (err) {
     if (err.response && err.response.status === 400) {
       ctx.reply(
@@ -101,7 +54,12 @@ bot.on("message", async (ctx) => {
 });
 
 // // // запускает бота и начинает прослушивать входящие сообщения и команды от пользователей
-bot.launch();
+bot.launch({
+  webhook: {
+    domain: WEBHOOK_DOMAIN,
+    port: PORT
+  }
+})
 
 // Остановка бота
 process.once("SIGINT", () => bot.stop("SIGINT"));
