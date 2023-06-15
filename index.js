@@ -46,6 +46,8 @@ const commands = [
 ];
 bot.telegram.setMyCommands(commands);
 
+
+
 // bot.telegram.deleteWebhook().then(() => {
 //   bot
 //     .launch({
