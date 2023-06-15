@@ -53,8 +53,12 @@ bot.command("start", (ctx) => {
 
 // Обработчик команды /weather
 bot.command("weather", async (ctx) => {
+  try {
   await ctx.reply("Какой город вас интересует?");
   await ctx.reply(`/Ulyanovsk`);
+  } catch (err) {
+    console.log(err.message)
+  }
 });
 
 // Обработчик команды /weather
