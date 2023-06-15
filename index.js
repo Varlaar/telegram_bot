@@ -39,50 +39,51 @@ bot.launch({
 const commands = [
   { command: "start", description: "Перезапустить бота" },
   { command: "weather", description: "Узнать погоду" },
+  { command: "test", description: "test" },
 ];
 
-// // Обработчик команды /start
-// bot.command("start", (ctx) => {
-//   ctx.reply(
-//     `Добро пожаловать, ${ctx.update.message.from.first_name}! Меня зовут ShirmanovTech бот.`
-//   );
-//   bot.telegram.setMyCommands(commands);
-// });
+// Обработчик команды /start
+bot.command("start", (ctx) => {
+  ctx.reply(
+    `Добро пожаловать, ${ctx.update.message.from.first_name}! Меня зовут ShirmanovTech бот.`
+  );
+  bot.telegram.setMyCommands(commands);
+});
 
-// // Обработчик команды /weather
-// bot.command("weather", async (ctx) => {
-//   try {
-//     ctx.reply("Какой город вас интересует?");
-//     ctx.reply(`/Ulyanovsk`);
-//   } catch (err) {
-//     console.log(err);
-//   }
-// });
+// Обработчик команды /weather
+bot.command("weather", async (ctx) => {
+  try {
+    ctx.reply("Какой город вас интересует?");
+    ctx.reply(`/Ulyanovsk`);
+  } catch (err) {
+    console.log(err);
+  }
+});
 
-// // Получение данных о температуре
-// bot.on("message", async (ctx) => {
-//   try {
-//     const message = ctx.message.text;
-//     const response = await requestWeather(message);
-//     const city = response.data.location.name;
-//     const temp_c = response.data.current.temp_c;
-//     ctx.reply(
-//       fmt`Текущая температура в ${bold`${mention(
-//         city,
-//         ctx.from.id
-//       )}`}${bold` : ${temp_c}`}°C`
-//     );
-//   } catch (err) {
-//     if (err.response && err.response.status === 400) {
-//       ctx.reply(
-//         `Город с таким названием не найден.\nПроверьте правильность написания города.`
-//       );
-//     } else {
-//       console.log(err.message);
-//       ctx.reply(`Произошла ошибка. Попробуйте позднее.`);
-//     }
-//   }
-// });
+// Получение данных о температуре
+bot.on("message", async (ctx) => {
+  try {
+    const message = ctx.message.text;
+    const response = await requestWeather(message);
+    const city = response.data.location.name;
+    const temp_c = response.data.current.temp_c;
+    ctx.reply(
+      fmt`Текущая температура в ${bold`${mention(
+        city,
+        ctx.from.id
+      )}`}${bold` : ${temp_c}`}°C`
+    );
+  } catch (err) {
+    if (err.response && err.response.status === 400) {
+      ctx.reply(
+        `Город с таким названием не найден.\nПроверьте правильность написания города.`
+      );
+    } else {
+      console.log(err.message);
+      ctx.reply(`Произошла ошибка. Попробуйте позднее.`);
+    }
+  }
+});
 
 // запускает бота и начинает прослушивать входящие сообщения и команды от пользователей
 bot.launch();
