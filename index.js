@@ -9,21 +9,31 @@ const { BOT_TOKEN } = process.env; // Деструктуризация BOT_TOKEN
 /* Эта переменная содержит номер порта, который будет использоваться вебхуком, и она должна быть настроена на вашем бесплатном хостинге.
 Например, для хостинга Heroku эта переменная будет автоматически установлена для вашего приложения.
 Если порт не был установлен, то по умолчанию используется порт 443 для HTTPS или порт 80 для HTTP. */
-const options = {
-  webHook: {
-    port: process.env.PORT,
-  },
-};
+// const options = {
+//   webHook: {
+//     port: process.env.PORT,
+//   },
+// };
 
-const url = "https://shirmanov-tech-bot.onrender.com"; // url хостинга
+const { WEBHOOK_URL } = process.env; // url хостинга
+const { WEBHOOK_DOMAIN } = process.env; // url хостинга
 
-const bot = new Telegraf(BOT_TOKEN, options); // создаем новый экземпляр Telegram-бота
+const bot = new Telegraf(BOT_TOKEN); // создаем новый экземпляр Telegram-бота
 
-bot.setWebHook(
-  `${url}/bot${BOT_TOKEN}`
-); /* После установки вебхука Telegram будет отправлять все входящие сообщения и события боту по этому URL-адресу.
-Таким образом, бот будет получать уведомления в режиме реального времени вместо опроса сервера Telegram на наличие новых сообщений.
-*/
+bot.telegram.setWebhook(WEBHOOK_URL);
+
+bot.launch({
+  webhook: {
+    domain: WEBHOOK_DOMAIN,
+    port: 8443
+  }
+});
+
+// bot.setWebHook(
+//   `${url}/bot${BOT_TOKEN}`
+// ); /* После установки вебхука Telegram будет отправлять все входящие сообщения и события боту по этому URL-адресу.
+// Таким образом, бот будет получать уведомления в режиме реального времени вместо опроса сервера Telegram на наличие новых сообщений.
+// */
 
 // Команды меню
 const commands = [
