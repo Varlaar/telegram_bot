@@ -39,6 +39,7 @@ bot.launch({
 const commands = [
   { command: "start", description: "Перезапустить бота" },
   { command: "weather", description: "Узнать погоду" },
+  { command: "test", description: "test" },
 ];
 
 // Обработчик команды /start
@@ -52,8 +53,8 @@ bot.command("start", (ctx) => {
 // Обработчик команды /weather
 bot.command("weather", async (ctx) => {
   try {
-    ctx.reply("Какой город вас интересует?");
-    ctx.reply(`/Ulyanovsk`);
+    await ctx.reply("Какой город вас интересует?");
+    await ctx.reply(`/Ulyanovsk`);
   } catch (err) {
     console.log(err);
   }
