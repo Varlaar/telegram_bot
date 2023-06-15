@@ -4,7 +4,7 @@ import requestWeather from "./api/weatherAPI.js";
 import "dotenv/config";
 
 const { BOT_TOKEN } = process.env; // Деструктуризация BOT_TOKEN из .env
-if (!BOT_TOKEN) throw new Error('"BOT_TOKEN" env var is required!'); // Проверка существует ли токен
+// if (!BOT_TOKEN) throw new Error('"BOT_TOKEN" env var is required!'); // Проверка существует ли токен
 
 /* Эта переменная содержит номер порта, который будет использоваться вебхуком, и она должна быть настроена на вашем бесплатном хостинге.
 Например, для хостинга Heroku эта переменная будет автоматически установлена для вашего приложения.
