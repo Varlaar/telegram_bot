@@ -17,15 +17,14 @@ const { BOT_TOKEN } = process.env; // Деструктуризация BOT_TOKEN
 
 const { WEBHOOK_URL } = process.env; // url хостинга
 const { WEBHOOK_DOMAIN } = process.env; // url хостинга
+const { PORT } = process.env; // url хостинга
 
 const bot = new Telegraf(BOT_TOKEN); // создаем новый экземпляр Telegram-бота
-
-bot.telegram.setWebhook(WEBHOOK_URL);
 
 bot.launch({
   webhook: {
     domain: WEBHOOK_DOMAIN,
-    port: 8443,
+    port: PORT,
   },
 });
 
