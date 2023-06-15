@@ -58,9 +58,9 @@ bot.command("weather", (ctx) => {
 });
 
 // Обработчик команды /weather
-bot.command("time", async (ctx) => {
-  await ctx.reply("Какой город вас интересует?");
-  await ctx.reply(`/Ulyanovsk`);
+bot.command("time", (ctx) => {
+  ctx.reply("Какой город вас интересует?");
+  ctx.reply(`/Ulyanovsk`);
 });
 
 // Получение данных о температуре
