@@ -39,7 +39,6 @@ bot.launch({
 const commands = [
   { command: "start", description: "Перезапустить бота" },
   { command: "weather", description: "Узнать погоду" },
-  { command: "weat", description: "Узнать" },
 ];
 
 // Обработчик команды /start
