@@ -10,7 +10,7 @@ import "dotenv/config";
 
 const serviceAccount = JSON.parse(fs.readFileSync('/home/clavicusvile/Рабочий стол/JS/telegram-bot.json'));
 process.env.SERVICE_ACCOUNT_KEY = JSON.stringify(serviceAccount);
-console.log(serviceAccount)
+console.log(serviceAccount);
 
 // const { SERVICE_ACCOUNT_KEY } = process.env; // Деструктуризация BOT_TOKEN из .env
 
