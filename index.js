@@ -8,8 +8,6 @@ import requestWeather from "./api/weatherAPI.js";
 import "dotenv/config";
 
 const { SERVICE_ACCOUNT_KEY } = process.env; // Деструктуризация BOT_TOKEN из .env
-if (!SERVICE_ACCOUNT_KEY)
-  throw new Error('"SERVICE_ACCOUNT_KEY" env var is required!'); // Проверка существует ли токен
 
 const { BOT_TOKEN } = process.env; // Деструктуризация BOT_TOKEN из .env
 if (!BOT_TOKEN) throw new Error('"BOT_TOKEN" env var is required!'); // Проверка существует ли токен
