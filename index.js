@@ -1,13 +1,15 @@
 import { Telegraf, Markup } from "telegraf";
 import telegrafSessionFirebase from "telegraf-session-firebase";
 import admin from "firebase-admin";
-import serviceAccount from "../telegram-bot-fada0-firebase-adminsdk-464kw-7f3bce4d48.json";
+// import serviceAccount from "../telegram-bot.json";
 // import serviceAccount from "../telegram-bot-fada0-firebase-adminsdk-464kw-7f3bce4d48.json" assert { type: "json" };
 import { commands } from "./assets/constants.js";
 import requestWeather from "./api/weatherAPI.js";
 import "dotenv/config";
 
-
+const { SERVICE_ACCOUNT_KEY } = process.env; // Деструктуризация BOT_TOKEN из .env
+if (!SERVICE_ACCOUNT_KEY)
+  throw new Error('"SERVICE_ACCOUNT_KEY" env var is required!'); // Проверка существует ли токен
 
 const { BOT_TOKEN } = process.env; // Деструктуризация BOT_TOKEN из .env
 if (!BOT_TOKEN) throw new Error('"BOT_TOKEN" env var is required!'); // Проверка существует ли токен
@@ -20,7 +22,7 @@ if (!PORT) throw new Error('"PORT" env var is required!'); // Проверка �
 
 // const serviceAccount = require(PATH_SDK_FIREBASE);
 admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
+  credential: admin.credential.cert(SERVICE_ACCOUNT_KEY),
   databaseURL: "https://Telegram_bot.firebaseio.com",
 });
 const database = admin.database();
@@ -45,21 +47,21 @@ bot.command("start", (ctx) => {
   );
 });
 
-bot.on('text', async (ctx) => {
+bot.on("text", async (ctx) => {
   const userId = ctx.from.id;
   const name = ctx.from.first_name;
-  const text = ctx.message.text.replace('/add ', '');
+  const text = ctx.message.text.replace("/add ", "");
 
   try {
-    await admin.firestore().collection('users').doc(userId.toString()).set({
+    await admin.firestore().collection("users").doc(userId.toString()).set({
       name,
-      text
+      text,
     });
 
-    ctx.reply('Ваша запись сохранена в Firestore.');
+    ctx.reply("Ваша запись сохранена в Firestore.");
   } catch (error) {
     console.error(error);
-    ctx.reply('Произошла ошибка при записи в Firestore.');
+    ctx.reply("Произошла ошибка при записи в Firestore.");
   }
 });
 
