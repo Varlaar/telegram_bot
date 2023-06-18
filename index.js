@@ -127,15 +127,15 @@ bot.action("bth_other", (ctx) => {
 //   }
 // });
 
-// // запускает бота и начинает прослушивать входящие сообщения и команды от пользователей
-// bot.launch({
-//   webhook: {
-//     domain: WEBHOOK_DOMAIN,
-//     port: PORT,
-//   },
-// });
+// запускает бота и начинает прослушивать входящие сообщения и команды от пользователей
+bot.launch({
+  webhook: {
+    domain: WEBHOOK_DOMAIN,
+    port: PORT,
+  },
+});
 
-bot.launch().then(console.log("Бот запущен!"));
+// bot.launch().then(console.log("Бот запущен!"));
 
 // Остановка бота
 process.once("SIGINT", () => bot.stop("SIGINT"));
