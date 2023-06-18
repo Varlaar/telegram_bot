@@ -1,4 +1,7 @@
-import { Telegraf, Markup, Composer, Scenes, session } from "telegraf";
+import { Telegraf, Markup } from "telegraf";
+import telegrafSessionFirebase from "telegraf-session-firebase";
+import admin from "firebase-admin"
+import serviceAccount from "../telegram-bot-fada0-firebase-adminsdk-464kw-7f3bce4d48.json" assert { type: "json" };
 import { commands } from "./assets/constants.js";
 import requestWeather from "./api/weatherAPI.js";
 import "dotenv/config";
@@ -7,10 +10,17 @@ const { BOT_TOKEN } = process.env; // Деструктуризация BOT_TOKEN
 if (!BOT_TOKEN) throw new Error('"BOT_TOKEN" env var is required!'); // Проверка существует ли токен
 
 const { WEBHOOK_DOMAIN } = process.env; // url хостинга
-if (!WEBHOOK_DOMAIN) throw new Error('"WEBHOOK_DOMAIN" env var is required!'); // Проверка существует ли токен
+if (!WEBHOOK_DOMAIN) throw new Error('"WEBHOOK_DOMAIN" env var is required!'); // Проверка существует ли домен
 
 const { PORT } = process.env; // url хостинга
-if (!PORT) throw new Error('"PORT" env var is required!'); // Проверка существует ли токен
+if (!PORT) throw new Error('"PORT" env var is required!'); // Проверка существует ли порт
+
+// const serviceAccount = require(PATH_SDK_FIREBASE);
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: "https://Telegram_bot.firebaseio.com",
+});
+const database = admin.database();
 
 const bot = new Telegraf(BOT_TOKEN); // создаем новый экземпляр Telegram-бота
 
@@ -32,6 +42,24 @@ bot.command("start", (ctx) => {
   );
 });
 
+bot.on('text', async (ctx) => {
+  const userId = ctx.from.id;
+  const name = ctx.from.first_name;
+  const text = ctx.message.text.replace('/add ', '');
+
+  try {
+    await admin.firestore().collection('users').doc(userId.toString()).set({
+      name,
+      text
+    });
+
+    ctx.reply('Ваша запись сохранена в Firestore.');
+  } catch (error) {
+    console.error(error);
+    ctx.reply('Произошла ошибка при записи в Firestore.');
+  }
+});
+
 // Обработчик команды /weather
 bot.command("weather", async (ctx) => {
   try {
@@ -46,6 +74,17 @@ bot.command("weather", async (ctx) => {
     console.log(err.message);
   }
 });
+
+bot.use(telegrafSessionFirebase(database.ref("sessions")));
+bot.on("text", (ctx, next) => {
+  ctx.session.counter = ctx.session.counter || 0;
+  ctx.session.counter++;
+  return next();
+});
+bot.hears("/stats", ({ reply, session, from }) =>
+  reply(`${session.counter} messages from ${from.username}`)
+);
+// bot.startPolling();
 
 bot.action("bth_ulsk", async (ctx) => {
   try {
@@ -89,14 +128,14 @@ bot.action("bth_other", (ctx) => {
 // });
 
 // // запускает бота и начинает прослушивать входящие сообщения и команды от пользователей
-bot.launch({
-  webhook: {
-    domain: WEBHOOK_DOMAIN,
-    port: PORT,
-  },
-});
+// bot.launch({
+//   webhook: {
+//     domain: WEBHOOK_DOMAIN,
+//     port: PORT,
+//   },
+// });
 
-// bot.launch().then(console.log("Бот запущен!"));
+bot.launch().then(console.log("Бот запущен!"));
 
 // Остановка бота
 process.once("SIGINT", () => bot.stop("SIGINT"));
