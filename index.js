@@ -12,7 +12,9 @@ import "dotenv/config";
 // process.env.SERVICE_ACCOUNT_KEY = JSON.stringify(serviceAccount);
 // console.log(serviceAccount);
 
-const { SERVICE_ACCOUNT_KEY } = process.env; // Деструктуризация BOT_TOKEN из .env
+const { PROJECT_ID } = process.env; // Деструктуризация BOT_TOKEN из .env
+const { PRIVATE_KEY} = process.env; // Деструктуризация BOT_TOKEN из .env
+const { CLIENT_EMAIL } = process.env; // Деструктуризация BOT_TOKEN из .env
 
 const { BOT_TOKEN } = process.env; // Деструктуризация BOT_TOKEN из .env
 if (!BOT_TOKEN) throw new Error('"BOT_TOKEN" env var is required!'); // Проверка существует ли токен
@@ -25,7 +27,11 @@ if (!PORT) throw new Error('"PORT" env var is required!'); // Проверка �
 
 // const serviceAccount = require(PATH_SDK_FIREBASE);
 admin.initializeApp({
-  credential: admin.credential.cert(SERVICE_ACCOUNT_KEY),
+  credential: admin.credential.cert({
+    projectId: PROJECT_ID,
+    privateKey: PRIVATE_KEY.replace(/\\n/g, '\n'),
+    clientEmail: CLIENT_EMAIL,
+  }),
   databaseURL: "https://Telegram_bot.firebaseio.com",
 });
 const database = admin.database();
