@@ -7,6 +7,8 @@ import { commands } from "./assets/constants.js";
 import requestWeather from "./api/weatherAPI.js";
 import "dotenv/config";
 
+
+
 const { BOT_TOKEN } = process.env; // Деструктуризация BOT_TOKEN из .env
 if (!BOT_TOKEN) throw new Error('"BOT_TOKEN" env var is required!'); // Проверка существует ли токен
 
