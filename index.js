@@ -1,19 +1,12 @@
 import { Telegraf, Markup } from "telegraf";
 import telegrafSessionFirebase from "telegraf-session-firebase";
 import admin from "firebase-admin";
-// import fs from "fs";
-// import serviceAccount from "../telegram-bot.json";
-// import serviceAccount from "../telegram-bot-fada0-firebase-adminsdk-464kw-7f3bce4d48.json" assert { type: "json" };
 import { commands } from "./assets/constants.js";
 import requestWeather from "./api/weatherAPI.js";
 import "dotenv/config";
 
-// const serviceAccount = JSON.parse(fs.readFileSync('/home/clavicusvile/Рабочий стол/JS/telegram-bot.json'));
-// process.env.SERVICE_ACCOUNT_KEY = JSON.stringify(serviceAccount);
-// console.log(serviceAccount);
-
 const { PROJECT_ID } = process.env; // Деструктуризация BOT_TOKEN из .env
-const { PRIVATE_KEY} = process.env; // Деструктуризация BOT_TOKEN из .env
+const { PRIVATE_KEY } = process.env; // Деструктуризация BOT_TOKEN из .env
 const { CLIENT_EMAIL } = process.env; // Деструктуризация BOT_TOKEN из .env
 
 const { BOT_TOKEN } = process.env; // Деструктуризация BOT_TOKEN из .env
@@ -29,7 +22,7 @@ if (!PORT) throw new Error('"PORT" env var is required!'); // Проверка �
 admin.initializeApp({
   credential: admin.credential.cert({
     projectId: PROJECT_ID,
-    privateKey: PRIVATE_KEY.replace(/\\n/g, '\n'),
+    privateKey: PRIVATE_KEY.replace(/\\n/g, "\n"),
     clientEmail: CLIENT_EMAIL,
   }),
   databaseURL: "https://Telegram_bot.firebaseio.com",
@@ -90,11 +83,13 @@ bot.command("weather", async (ctx) => {
 });
 
 bot.use(telegrafSessionFirebase(database.ref("sessions")));
+
 bot.on("text", (ctx, next) => {
   ctx.session.counter = ctx.session.counter || 0;
   ctx.session.counter++;
   return next();
 });
+
 bot.hears("/stats", ({ reply, session, from }) =>
   reply(`${session.counter} messages from ${from.username}`)
 );
@@ -141,15 +136,15 @@ bot.action("bth_other", (ctx) => {
 //   }
 // });
 
-// запускает бота и начинает прослушивать входящие сообщения и команды от пользователей
-bot.launch({
-  webhook: {
-    domain: WEBHOOK_DOMAIN,
-    port: PORT,
-  },
-});
+// // запускает бота и начинает прослушивать входящие сообщения и команды от пользователей
+// bot.launch({
+//   webhook: {
+//     domain: WEBHOOK_DOMAIN,
+//     port: PORT,
+//   },
+// });
 
-// bot.launch().then(console.log("Бот запущен!"));
+bot.launch().then(console.log("Бот запущен!"));
 
 // Остановка бота
 process.once("SIGINT", () => bot.stop("SIGINT"));
