@@ -1,7 +1,8 @@
 import { Telegraf, Markup } from "telegraf";
 import telegrafSessionFirebase from "telegraf-session-firebase";
-import admin from "firebase-admin"
-import serviceAccount from "../telegram-bot-fada0-firebase-adminsdk-464kw-7f3bce4d48.json" assert { type: "json" };
+import admin from "firebase-admin";
+import serviceAccount from "../telegram-bot-fada0-firebase-adminsdk-464kw-7f3bce4d48.json";
+// import serviceAccount from "../telegram-bot-fada0-firebase-adminsdk-464kw-7f3bce4d48.json" assert { type: "json" };
 import { commands } from "./assets/constants.js";
 import requestWeather from "./api/weatherAPI.js";
 import "dotenv/config";
