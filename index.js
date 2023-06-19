@@ -49,23 +49,23 @@ bot.command("start", (ctx) => {
   );
 });
 
-bot.on("text", async (ctx) => {
-  const userId = ctx.from.id;
-  const name = ctx.from.first_name;
-  const text = ctx.message.text.replace("/add ", "");
+// bot.on("text", async (ctx) => {
+//   const userId = ctx.from.id;
+//   const name = ctx.from.first_name;
+//   const text = ctx.message.text.replace("/add ", "");
 
-  try {
-    await admin.firestore().collection("users").doc(userId.toString()).set({
-      name,
-      text,
-    });
+//   try {
+//     await admin.firestore().collection("users").doc(userId.toString()).set({
+//       name,
+//       text,
+//     });
 
-    ctx.reply("Ваша запись сохранена в Firestore.");
-  } catch (error) {
-    console.error(error);
-    ctx.reply("Произошла ошибка при записи в Firestore.");
-  }
-});
+//     ctx.reply("Ваша запись сохранена в Firestore.");
+//   } catch (error) {
+//     console.error(error);
+//     ctx.reply("Произошла ошибка при записи в Firestore.");
+//   }
+// });
 
 // Обработчик команды /weather
 bot.command("weather", async (ctx) => {
@@ -84,16 +84,19 @@ bot.command("weather", async (ctx) => {
 
 bot.use(telegrafSessionFirebase(database.ref("sessions")));
 
-bot.on("text", (ctx, next) => {
-  ctx.session.counter = ctx.session.counter || 0;
-  ctx.session.counter++;
-  return next();
-});
+// bot.on("text", async (ctx, next) => {
+//   try {
+//     ctx.session.counter = ctx.session.counter || 0;
+//     ctx.session.counter++;
+//     await next();
+//   } catch (err) {
+//     console.log(err.message);
+//   }
+// });
 
-bot.hears("/stats", ({ reply, session, from }) =>
-  reply(`${session.counter} messages from ${from.username}`)
-);
-// bot.startPolling();
+// bot.hears("/stats", ({ reply, session, from }) =>
+//   reply(`${session.counter} messages from ${from.username}`)
+// );
 
 bot.action("bth_ulsk", async (ctx) => {
   try {
@@ -142,6 +145,7 @@ bot.action("bth_other", (ctx) => {
 //     domain: WEBHOOK_DOMAIN,
 //     port: PORT,
 //   },
+// retryAfter: 5000 // увеличение времени повторов при ошибке TIMEOUT
 // });
 
 bot.launch().then(console.log("Бот запущен!"));
